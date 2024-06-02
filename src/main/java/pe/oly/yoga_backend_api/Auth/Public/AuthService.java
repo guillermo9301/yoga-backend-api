@@ -16,42 +16,47 @@ import pe.oly.yoga_backend_api.User.Usuario;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+        private final UserRepository userRepository;
+        private final JwtService jwtService;
+        private final PasswordEncoder passwordEncoder;
+        private final AuthenticationManager authenticationManager;
 
-    public AuthResponse login(LoginRequest request) {
-        authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getCorreo(), request.getPassword()));
-        UserDetails user = userRepository.findByCorreo(request.getCorreo()).orElseThrow();
-        String token = jwtService.getToken(user);
-        return AuthResponse.builder()
-                .token(token)
-                .build();
-    }
+        public AuthResponse login(LoginRequest request) {
+                authenticationManager
+                                .authenticate(new UsernamePasswordAuthenticationToken(request.getCorreo(),
+                                                request.getPassword()));
+                UserDetails userDetails = userRepository.findByCorreo(request.getCorreo()).orElseThrow();
+                Usuario usuario = (Usuario) userDetails;
+                String token = jwtService.getToken(usuario);
+                return AuthResponse.builder()
+                                .token(token)
+                                .nombre(usuario.getNombre())
+                                .apellido_paterno(usuario.getApellido_paterno())
+                                .rol(usuario.getRol().name())
+                                .build();
+        }
 
-    public AuthResponse register(RegisterRequest request) {
-        Usuario usuario = Usuario.builder()
-                .correo(request.getCorreo())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .nombre(request.getNombre())
-                .apellido_paterno(request.getApellido_paterno())
-                .apellido_materno(request.getApellido_materno())
-                .fec_nacimiento(request.getFec_nacimiento())
-                .id_tipo_documento(request.getId_tipo_documento())
-                .nro_documento(request.getNro_documento())
-                .celular(request.getCelular())
-                .fecha_registro(request.getFecha_registro())
-                .rol(Rol.ALUMNO)
-                .build();
+        public AuthResponse register(RegisterRequest request) {
+                Usuario usuario = Usuario.builder()
+                                .correo(request.getCorreo())
+                                .password(passwordEncoder.encode(request.getPassword()))
+                                .nombre(request.getNombre())
+                                .apellido_paterno(request.getApellido_paterno())
+                                .apellido_materno(request.getApellido_materno())
+                                .fec_nacimiento(request.getFec_nacimiento())
+                                .id_tipo_documento(request.getId_tipo_documento())
+                                .nro_documento(request.getNro_documento())
+                                .celular(request.getCelular())
+                                .fecha_registro(request.getFecha_registro())
+                                .rol(Rol.ALUMNO)
+                                .build();
 
-        userRepository.save(usuario);
+                userRepository.save(usuario);
 
-        return AuthResponse.builder()
-                .token(jwtService.getToken(usuario))
-                .build();
+                return AuthResponse.builder()
+                                .token(jwtService.getToken(usuario))
+                                .build();
 
-    }
+        }
 
 }
