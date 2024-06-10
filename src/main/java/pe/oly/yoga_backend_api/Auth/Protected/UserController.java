@@ -34,9 +34,10 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @PutMapping()
-    public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest) {
-        return ResponseEntity.ok(userService.updateUser(userRequest));
+    @PutMapping(value = "{id}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Integer id, @RequestBody UserRequest userRequest)
+            throws Exception {
+        return ResponseEntity.ok(userService.updateUser(id, userRequest));
     }
 
     @GetMapping

@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 //permite registrarse a los nuevos alumnos y hacer login a los previamente ya registrados
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @CrossOrigin(origins = { "http://localhost:4200" })
 public class AuthController {

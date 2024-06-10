@@ -27,43 +27,43 @@ import pe.oly.yoga_backend_api.Jwt.JwtAuthenticationFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthenticationProvider authProvider;
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final AuthenticationProvider authProvider;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authRequest -> authRequest
-                        .requestMatchers(HttpMethod.GET).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(
-                        sessionManager -> sessionManager
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                return http
+                                .csrf(csrf -> csrf.disable())
+                                .authorizeHttpRequests(authRequest -> authRequest
+                                                .requestMatchers(HttpMethod.GET).permitAll()
+                                                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                                                .requestMatchers("api/auth/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .sessionManagement(
+                                                sessionManager -> sessionManager
+                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authenticationProvider(authProvider)
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                                .build();
+        }
 
-    /*
-     * @Bean
-     * public CorsConfigurationSource corsConfigurationSource() {
-     * CorsConfiguration configuration = new CorsConfiguration();
-     * configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); //
-     * Cambia esto a tu dominio de
-     * // frontend si es necesario
-     * configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE",
-     * "OPTIONS"));
-     * configuration.setAllowedHeaders(Arrays.asList("authorization",
-     * "content-type", "x-auth-token"));
-     * configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-     * UrlBasedCorsConfigurationSource source = new
-     * UrlBasedCorsConfigurationSource();
-     * source.registerCorsConfiguration("/**", configuration);
-     * return source;
-     * }
-     */
+        /*
+         * @Bean
+         * public CorsConfigurationSource corsConfigurationSource() {
+         * CorsConfiguration configuration = new CorsConfiguration();
+         * configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); //
+         * Cambia esto a tu dominio de
+         * // frontend si es necesario
+         * configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE",
+         * "OPTIONS"));
+         * configuration.setAllowedHeaders(Arrays.asList("authorization",
+         * "content-type", "x-auth-token"));
+         * configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+         * UrlBasedCorsConfigurationSource source = new
+         * UrlBasedCorsConfigurationSource();
+         * source.registerCorsConfiguration("/**", configuration);
+         * return source;
+         * }
+         */
 
 }

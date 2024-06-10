@@ -1,8 +1,10 @@
 package pe.oly.yoga_backend_api.User;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -14,24 +16,29 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserResponse updateUser(UserRequest userRequest) {
+    public UserResponse updateUser(Integer id, UserRequest userRequest) throws Exception {
 
-        Usuario user = Usuario.builder()
-                .id(userRequest.id)
-                .nombre(userRequest.getNombre())
-                .apellido_paterno(userRequest.getApellido_paterno())
-                .apellido_materno(userRequest.getApellido_materno())
-                .celular(userRequest.getCelular())
-                .correo(userRequest.getCorreo())
-                .fec_nacimiento(userRequest.getFec_nacimiento())
-                .id_tipo_documento(userRequest.getId_tipo_documento())
-                .nro_documento(userRequest.getNro_documento())
-                .rol(userRequest.getRol())
-                .build();
+        // Verificar si el usuario existe
+        Optional<Usuario> existingUserOpt = userRepository.findById(id);
+        if (!existingUserOpt.isPresent()) {
+            throw new UsernameNotFoundException("User not found with id " + id);
+        }
 
-        userRepository.updateUser(user.id, user.nombre, user.apellido_paterno,
-                user.apellido_materno, user.celular, user.correo, user.fec_nacimiento,
-                user.id_tipo_documento, user.nro_documento, user.rol);
+        Usuario existingUser = existingUserOpt.get();
+
+        // Actualizar los campos del usuario existente
+        existingUser.setNombre(userRequest.getNombre());
+        existingUser.setApellido_paterno(userRequest.getApellido_paterno());
+        existingUser.setApellido_materno(userRequest.getApellido_materno());
+        existingUser.setCelular(userRequest.getCelular());
+        existingUser.setCorreo(userRequest.getCorreo());
+        existingUser.setFec_nacimiento(userRequest.getFec_nacimiento());
+        existingUser.setId_tipo_documento(userRequest.getId_tipo_documento());
+        existingUser.setNro_documento(userRequest.getNro_documento());
+        existingUser.setRol(userRequest.getRol());
+
+        // Guardar el usuario actualizado
+        userRepository.save(existingUser);
 
         return new UserResponse("Los datos se actualizaron satisfactoriamente");
     }
