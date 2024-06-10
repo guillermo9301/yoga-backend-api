@@ -1,6 +1,7 @@
 package pe.oly.yoga_backend_api.Auth.Public;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,9 @@ import lombok.RequiredArgsConstructor;
 //permite registrarse a los nuevos alumnos y hacer login a los previamente ya registrados
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = { "http://localhost:4200" })
 public class AuthController {
 
     private final AuthService authService;
