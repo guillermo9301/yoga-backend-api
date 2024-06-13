@@ -29,9 +29,11 @@ public class AuthService {
                 Usuario usuario = (Usuario) userDetails;
                 String token = jwtService.getToken(usuario);
                 return AuthResponse.builder()
+                                .id(usuario.getId())
                                 .token(token)
                                 .nombre(usuario.getNombre())
                                 .apellido_paterno(usuario.getApellido_paterno())
+                                .apellido_materno(usuario.getApellido_materno())
                                 .correo(usuario.getCorreo())
                                 .rol(usuario.getRol().name())
                                 .build();
