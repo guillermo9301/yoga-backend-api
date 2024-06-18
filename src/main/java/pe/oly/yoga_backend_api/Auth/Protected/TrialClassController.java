@@ -3,7 +3,9 @@ package pe.oly.yoga_backend_api.Auth.Protected;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +42,18 @@ public class TrialClassController {
     public ResponseEntity<BookTrialResponse> updateTrialClass(@PathVariable Integer id, @RequestBody BookTrialRequest request)
             throws Exception {
         return ResponseEntity.ok(trialClassService.updateTrialClass(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTrialClass(@PathVariable Integer id) {
+        try {
+            trialClassService.deleteTrialClass(id);
+            return ResponseEntity.noContent().build();
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
 }
