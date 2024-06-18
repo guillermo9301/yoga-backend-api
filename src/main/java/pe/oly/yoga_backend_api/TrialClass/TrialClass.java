@@ -3,6 +3,7 @@ package pe.oly.yoga_backend_api.TrialClass;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class TrialClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private LocalDate fecha;
     private LocalTime hora_inicio;
@@ -39,4 +40,7 @@ public class TrialClass {
     @OneToOne(targetEntity = Usuario.class)
     @JoinColumn(name = "id_alumno")
     private Usuario alumno;
+
+
+
 }

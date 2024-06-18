@@ -13,10 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookTrialResponse {
-    Long id;
+    int id;
     LocalDate fecha;
     LocalTime hora_inicio;
     LocalTime hora_fin;
     int id_alumno;
     String mensaje;
+    // Constructor adicional
+    public BookTrialResponse(String mensaje) {
+        this.mensaje = mensaje;
+    }
 }
