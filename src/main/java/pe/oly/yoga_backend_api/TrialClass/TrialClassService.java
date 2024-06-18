@@ -52,6 +52,8 @@ public class TrialClassService {
      @Transactional
     public BookTrialResponse updateTrialClass(Integer id, BookTrialRequest bookTrialRequest) throws Exception {
 
+        Usuario alumno = userRepository.findById(bookTrialRequest.getId_alumno()).orElseThrow(
+            () -> new IllegalArgumentException("Usuario no encontrado"));
         // Verificar si el usuario existe
         Optional<TrialClass> existingClassOpt = trialClassRepository.findById(id);
         if (!existingClassOpt.isPresent()) {
@@ -64,12 +66,21 @@ public class TrialClassService {
         existingClass.setFecha(bookTrialRequest.getFecha());
         existingClass.setHora_inicio(bookTrialRequest.getHora_inicio());
         existingClass.setHora_fin(bookTrialRequest.getHora_fin());
-     
+        
 
         // Guardar el usuario actualizado
-        trialClassRepository.save(existingClass);
+        TrialClass updatedTrialClass = trialClassRepository.save(existingClass);
+        return BookTrialResponse.builder()
+        .id(updatedTrialClass.getId())
+        .fecha(updatedTrialClass.getFecha())
+        .hora_inicio(updatedTrialClass.getHora_inicio())
+        .hora_fin(updatedTrialClass.getHora_fin())
+        .id_alumno(alumno.getId())
+        .mensaje("los datos se actualizaron correctamente")
+        .build();
 
-        return new BookTrialResponse("Los datos se actualizaron satisfactoriamente");
+
+        
     }
 
    
