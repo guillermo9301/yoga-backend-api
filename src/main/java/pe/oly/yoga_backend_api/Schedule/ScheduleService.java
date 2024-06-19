@@ -64,6 +64,18 @@ public class ScheduleService {
                 .build();
     }
 
+    public ScheduleUpdateResponse getScheduleById(Long id) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Schedule no encontrado"));
+
+        return ScheduleUpdateResponse.builder()
+                .id(schedule.getId())
+                .fecha(schedule.getFecha())
+                .horaInicio(schedule.getHoraInicio())
+                .horaFin(schedule.getHoraFin())
+                .build();
+    }
+
     public List<Schedule> getSchedulesByAlumnoId(int alumnoId) {
         return scheduleRepository.findAllByAlumnoId(alumnoId);
     }

@@ -36,6 +36,12 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleService.getSchedulesByAlumnoId(alumnoId));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleUpdateResponse> getScheduleById(@PathVariable Long id) {
+        ScheduleUpdateResponse response = scheduleService.getScheduleById(id);
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping("/update")
     public ResponseEntity<ScheduleUpdateResponse> updateSchedule(@RequestBody ScheduleDTO request) {
         ScheduleUpdateResponse response = scheduleService.updateSchedule(request);
