@@ -83,11 +83,15 @@ public class TrialClassService {
         
     }
 
+    @Transactional
+    public void deleteTrialClass(Integer id) throws Exception {
+        if (!trialClassRepository.existsById(id)) {
+            throw new UsernameNotFoundException("Clase de prueba no encontrada con id " + id);
+        }
+        trialClassRepository.deleteById(id);
+    }
+
    
-
-
-
-
        public List<TrialClass> getAll() {
         return trialClassRepository.findAll();
       }
