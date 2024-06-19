@@ -19,7 +19,7 @@ public class BookTrialResponse {
     LocalTime hora_fin;
     int id_alumno;
     String mensaje;
- 
+
     public BookTrialResponse(String mensaje) {
         this.mensaje = mensaje;
     }

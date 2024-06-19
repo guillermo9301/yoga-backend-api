@@ -64,6 +64,28 @@ public class ScheduleService {
                 .build();
     }
 
+    public List<Schedule> getSchedulesByAlumnoId(int alumnoId) {
+        return scheduleRepository.findAllByAlumnoId(alumnoId);
+    }
+
+    public ScheduleUpdateResponse updateSchedule(ScheduleDTO request) {
+        Schedule schedule = scheduleRepository.findById((long) request.getId()).orElseThrow(
+                () -> new IllegalArgumentException("No se encontró el horario especificado"));
+
+        schedule.setFecha(request.getFecha());
+        schedule.setHoraInicio(request.getHoraInicio());
+        schedule.setHoraFin(request.getHoraFin());
+
+        Schedule updatedSchedule = scheduleRepository.save(schedule);
+
+        return ScheduleUpdateResponse.builder()
+                .id(updatedSchedule.getId())
+                .fecha(updatedSchedule.getFecha())
+                .horaInicio(updatedSchedule.getHoraInicio())
+                .horaFin(updatedSchedule.getHoraFin())
+                .build();
+    }
+
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
     }
