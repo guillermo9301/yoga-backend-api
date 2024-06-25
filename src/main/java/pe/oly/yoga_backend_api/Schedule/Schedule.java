@@ -1,16 +1,10 @@
-package pe.oly.yoga_backend_api.TrialClass;
+package pe.oly.yoga_backend_api.Schedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,28 +13,28 @@ import pe.oly.yoga_backend_api.User.Usuario;
 
 @Entity
 @Builder
-@Table(name = "trial_class")
+@Table(name = "schedule")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class TrialClass {
+public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private LocalDate fecha;
-    private LocalTime hora_inicio;
-    private LocalTime hora_fin;
+    @Column(name = "hora_inicio")
+    private LocalTime horaInicio;
+
+    @Column(name = "hora_fin")
+    private LocalTime horaFin;
     private String correo;
     private String nombre_alumno;
     private String apellido_paterno_alumno;
     private String apellido_materno_alumno;
 
-    @OneToOne(targetEntity = Usuario.class)
-    @JoinColumn(name = "id_alumno")
-    private Usuario alumno;
-
-
-
+    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "schedule_alumnos", joinColumns = @JoinColumn(name = "schedule_id"), inverseJoinColumns = @JoinColumn(name = "alumno_id"))
+    private List<Usuario> alumnos;
 }
