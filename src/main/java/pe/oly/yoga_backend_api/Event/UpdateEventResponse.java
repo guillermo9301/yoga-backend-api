@@ -1,4 +1,4 @@
-package pe.oly.yoga_backend_api.Schedule;
+package pe.oly.yoga_backend_api.Event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -8,13 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScheduleUpdateResponse {
-    private int id;
+public class UpdateEventResponse {
+    private String mensaje;
+    private Long eventoiId;
     private LocalDate fecha;
     private LocalTime horaInicio;
     private LocalTime horaFin;
+    private int capacidad;
 }

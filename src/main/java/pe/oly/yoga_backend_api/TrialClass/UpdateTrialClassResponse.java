@@ -1,4 +1,4 @@
-package pe.oly.yoga_backend_api.Schedule;
+package pe.oly.yoga_backend_api.TrialClass;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScheduleDTO {
-
-    private int id;
+public class UpdateTrialClassResponse {
     private LocalDate fecha;
     private LocalTime horaInicio;
     private LocalTime horaFin;
+    private String mensaje;
 }
