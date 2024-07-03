@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pe.oly.yoga_backend_api.Suscription.Suscription;
 
 @Data
 @Builder
@@ -47,6 +48,8 @@ public class Usuario implements UserDetails {
     Date fecha_registro;
     @Enumerated(EnumType.STRING)
     Rol rol;
+    @ManyToOne(targetEntity = Suscription.class, fetch = FetchType.LAZY)
+    List<Suscription> suscripciones;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
