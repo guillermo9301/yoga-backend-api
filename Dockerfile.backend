@@ -1,0 +1,14 @@
+# Usa una imagen base de OpenJDK para el entorno de ejecución de Java
+FROM openjdk:11-jdk-slim
+
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copia el archivo JAR de la aplicación al contenedor
+COPY target/yoga-backend-api.jar app.jar
+
+# Expone el puerto en el que la aplicación se ejecutará
+EXPOSE 8080
+
+# Define el comando de inicio de la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]
