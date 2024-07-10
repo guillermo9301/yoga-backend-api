@@ -8,21 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-
-
 @RestController
 @RequestMapping("api/pago")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
-public class PaymentController   {
+public class PaymentController {
 
-      private final PaymentService paymentService;
+    private final PaymentService paymentService;
 
     @PostMapping("/nuevoPago")
-    public Payment create (@RequestBody Payment payment){
+    public Payment create(@RequestBody Payment payment) {
         return paymentService.create(payment);
     }
-
-    
 
 }

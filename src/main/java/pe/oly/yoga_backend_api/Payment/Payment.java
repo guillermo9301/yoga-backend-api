@@ -8,7 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,8 +49,7 @@ public class Payment {
 
 
 
-    @OneToOne(targetEntity = Paquete.class)
-    @JoinColumn(name = "paquete")
-    private Paquete paqueteId;
-
+    @ManyToOne
+    @JoinColumn(name = "paquete", referencedColumnName = "id")
+    private Paquete paquete;
 }
