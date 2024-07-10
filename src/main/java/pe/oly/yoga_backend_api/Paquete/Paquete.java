@@ -29,4 +29,3 @@ public class Paquete {
     @Column(name = "cantidad_dias")
     private Integer cantidadDias;
 }
-

@@ -20,25 +20,32 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "http://localhost:4200")
 public class PaqueteController {
 
-    private final PaqueteService paqueteService;
+  private final PaqueteService paqueteService;
 
-    @PostMapping("/nuevoPaquete")
-    public Paquete create(@RequestBody Paquete paquete) {
-        return paqueteService.create(paquete);
-    }
+  @PostMapping("/nuevoPaquete")
+  public Paquete create(@RequestBody Paquete paquete) {
+    return paqueteService.create(paquete);
+  }
 
-    @GetMapping
-    public List<Paquete> getAllPaquetes() {
-        return paqueteService.getAll();
-    }
+  @GetMapping("/{id}")
+  public Paquete getPaqueteById(@PathVariable Long id) {
+    return paqueteService.getPaqueteById(id);
+  }
 
-    @DeleteMapping("/{id}")
-    public void deletePaquete(@PathVariable Long id) {
-        paqueteService.deleteById(id);
-    }
+  @GetMapping
+  public List<Paquete> getAllPaquetes() {
+    return paqueteService.getAll();
+  }
 
-    @PutMapping("/{id}")
-    public Paquete updatePaquete(@PathVariable Long id, @RequestBody Paquete paquete) {
-        return paqueteService.update(id, paquete);
-    }
+  /*
+   * @DeleteMapping("/{id}")
+   * public void deletePaquete(@PathVariable Long id) {
+   * paqueteService.deleteById(id);
+   * }
+   */
+
+  @PutMapping("/{id}")
+  public Paquete updatePaquete(@PathVariable Long id, @RequestBody Paquete paquete) {
+    return paqueteService.update(id, paquete);
+  }
 }

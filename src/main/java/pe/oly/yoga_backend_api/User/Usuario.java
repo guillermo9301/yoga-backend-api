@@ -1,6 +1,7 @@
 package pe.oly.yoga_backend_api.User;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +48,7 @@ public class Usuario implements UserDetails {
     String apellido_materno;
 
     @Column(nullable = false)
-    Date fec_nacimiento;
+    LocalDate fec_nacimiento;
 
     @Column(nullable = false)
     Integer id_tipo_documento;

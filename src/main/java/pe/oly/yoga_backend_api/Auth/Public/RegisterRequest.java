@@ -1,6 +1,7 @@
 package pe.oly.yoga_backend_api.Auth.Public;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class RegisterRequest {
     String nombre;
     String apellido_paterno;
     String apellido_materno;
-    Date fec_nacimiento;
+    LocalDate fec_nacimiento;
     Integer id_tipo_documento;
     String nro_documento;
     String celular;

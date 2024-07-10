@@ -1,14 +1,13 @@
 package pe.oly.yoga_backend_api.Payment;
 
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +33,7 @@ public class Payment {
     @Column(nullable = false)
     private String celular;
 
-    @Column(nullable = false , name = "num_tarjeta")
+    @Column(nullable = false, name = "num_tarjeta")
     private String numTarjeta;
 
     @Column(nullable = false)
@@ -45,11 +44,12 @@ public class Payment {
 
     @Column(nullable = false)
     private String titular;
+    /*
+     * @ManyToOne
+     * 
+     * @JoinColumn(name = "paquete", referencedColumnName = "id")
+     * private Paquete paquete;
+     */
 
-
-
-    @OneToOne(targetEntity = Paquete.class)
-    @JoinColumn(name = "paquete")
-    private Paquete paqueteId;
-
+    private Long paqueteId;
 }

@@ -19,22 +19,25 @@ public class PaqueteService {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    public void deleteById(Long id) {
-        // Buscar el paquete por ID
-        Paquete paquete = paqueteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paquete no encontrado con ID: " + id));
-
-        // Buscar el payment asociado al paquete
-        Payment payment = paymentRepository.findByPaqueteId(paquete);
-
-        // Si hay un payment asociado, eliminarlo
-        if (payment != null) {
-            paymentRepository.delete(payment);
-        }
-
-        // Eliminar el paquete
-        paqueteRepository.deleteById(id);
-    }
+    /*
+     * public void deleteById(Long id) {
+     * // Buscar el paquete por ID
+     * Paquete paquete = paqueteRepository.findById(id)
+     * .orElseThrow(() -> new RuntimeException("Paquete no encontrado con ID: " +
+     * id));
+     * 
+     * // Buscar el payment asociado al paquete
+     * Payment payment = paymentRepository.findByPaqueteId(paquete);
+     * 
+     * // Si hay un payment asociado, eliminarlo
+     * if (payment != null) {
+     * paymentRepository.delete(payment);
+     * }
+     * 
+     * // Eliminar el paquete
+     * paqueteRepository.deleteById(id);
+     * }
+     */
 
     public Paquete create(Paquete request) {
         Paquete paquete = Paquete.builder()
@@ -67,6 +70,11 @@ public class PaqueteService {
             // Manejo de excepción si no se encuentra el paquete con el ID proporcionado
             throw new RuntimeException("Paquete no encontrado con el ID: " + id);
         }
+    }
+
+    public Paquete getPaqueteById(Long id) {
+        return paqueteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paquete no encontrado con ID: " + id));
     }
 
 }

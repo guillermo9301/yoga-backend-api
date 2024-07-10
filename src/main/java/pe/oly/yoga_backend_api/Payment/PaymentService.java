@@ -10,25 +10,20 @@ import pe.oly.yoga_backend_api.Paquete.PaqueteRepository;
 @RequiredArgsConstructor
 public class PaymentService {
 
-  private final PaymentRepository paymentRepository;
-  private final PaqueteRepository paqueteRepository;
+    private final PaymentRepository paymentRepository;
+    private final PaqueteRepository paqueteRepository;
 
-  public Payment create(Payment request) {
+    public Payment create(Payment request) {
+        Payment payment = Payment.builder()
+                .paqueteId(request.getPaqueteId())
+                .correo(request.getCorreo())
+                .celular(request.getCelular())
+                .numTarjeta(request.getNumTarjeta())
+                .expiracion(request.getExpiracion())
+                .cvc(request.getCvc())
+                .titular(request.getTitular()).build();
 
-    Paquete paquete = paqueteRepository.findById(request.getPaqueteId().getId()).orElseThrow(
-        () -> new IllegalArgumentException("Paquete no encontrado!"));
-    Payment payment = Payment.builder()
-        .paqueteId(paquete)
-        .correo(request.getCorreo())
-        .celular(request.getCelular())
-        .numTarjeta(request.getNumTarjeta())
-        .expiracion(request.getExpiracion())
-        .cvc(request.getCvc())
-        .titular(request.getTitular()).build();
+        return paymentRepository.save(payment);
 
-    Payment nuevoPago = paymentRepository.save(payment);
-
-    return nuevoPago;
-
-  }
+    }
 }
