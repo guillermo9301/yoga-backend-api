@@ -10,10 +10,11 @@ public class YogaBackendApiApplication {
 
 	public static void main(String[] args) {
 		// Cargar variables de entorno desde el archivo .env
-		Dotenv dotenv = Dotenv.load();
+		// Dotenv dotenv = Dotenv.load();
 
 		// Establecer las variables de entorno
-		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
+		// dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(),
+		// entry.getValue()));
 		SpringApplication.run(YogaBackendApiApplication.class, args);
 	}
 
