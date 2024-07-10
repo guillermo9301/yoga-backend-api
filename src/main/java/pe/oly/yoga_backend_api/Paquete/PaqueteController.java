@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
 @RequestMapping("api/paquete")
 @RequiredArgsConstructor
@@ -24,11 +23,11 @@ public class PaqueteController {
     private final PaqueteService paqueteService;
 
     @PostMapping("/nuevoPaquete")
-    public Paquete create (@RequestBody Paquete paquete){
+    public Paquete create(@RequestBody Paquete paquete) {
         return paqueteService.create(paquete);
     }
 
-      @GetMapping
+    @GetMapping
     public List<Paquete> getAllPaquetes() {
         return paqueteService.getAll();
     }
@@ -38,7 +37,7 @@ public class PaqueteController {
         paqueteService.deleteById(id);
     }
 
-     @PutMapping("/{id}")
+    @PutMapping("/{id}")
     public Paquete updatePaquete(@PathVariable Long id, @RequestBody Paquete paquete) {
         return paqueteService.update(id, paquete);
     }

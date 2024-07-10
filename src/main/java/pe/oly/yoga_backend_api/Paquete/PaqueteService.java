@@ -16,10 +16,8 @@ public class PaqueteService {
 
     private final PaqueteRepository paqueteRepository;
 
-     @Autowired
+    @Autowired
     private PaymentRepository paymentRepository;
-
-
 
     public void deleteById(Long id) {
         // Buscar el paquete por ID
@@ -38,24 +36,22 @@ public class PaqueteService {
         paqueteRepository.deleteById(id);
     }
 
-
-    public Paquete create(Paquete request){
+    public Paquete create(Paquete request) {
         Paquete paquete = Paquete.builder()
-            .nombre(request.getNombre())
-            .precio(request.getPrecio())
-            .cantidadClases(request.getCantidadClases())
-            .cantidadDias(request.getCantidadDias()).build();
+                .nombre(request.getNombre())
+                .precio(request.getPrecio())
+                .cantidadClases(request.getCantidadClases())
+                .cantidadDias(request.getCantidadDias()).build();
 
-            Paquete nuevoPaquete = paqueteRepository.save(paquete);
+        Paquete nuevoPaquete = paqueteRepository.save(paquete);
 
-            return nuevoPaquete;
+        return nuevoPaquete;
     }
 
-     public List<Paquete> getAll() {
+    public List<Paquete> getAll() {
         return paqueteRepository.findAll();
     }
 
-   
     public Paquete update(Long id, Paquete request) {
         Optional<Paquete> optionalPaquete = paqueteRepository.findById(id);
 

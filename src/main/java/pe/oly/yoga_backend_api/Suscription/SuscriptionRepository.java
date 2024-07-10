@@ -1,9 +1,24 @@
 package pe.oly.yoga_backend_api.Suscription;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface SuscriptionRepository extends JpaRepository<Suscription, Integer> {
+import pe.oly.yoga_backend_api.Paquete.Paquete;
+import pe.oly.yoga_backend_api.User.Usuario;
 
-    
+public interface SuscriptionRepository extends JpaRepository<Suscription, Long> {
+
+    @Modifying
+    @Query("UPDATE Suscription s SET s.paquete = :paquete, s.fechaInicio = :fechaInicio, s.fechaFin = :fechaFin, s.estado = :estado WHERE s.id = :id")
+    int renewSuscription(@Param("id") Long id, @Param("paquete") Paquete paquete,
+            @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin,
+            @Param("estado") EstadoSuscripcion estado);
+
+    Optional<Suscription> findByAlumno(Usuario alumnoId);
 
 }

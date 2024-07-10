@@ -1,16 +1,20 @@
 package pe.oly.yoga_backend_api.Suscription;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pe.oly.yoga_backend_api.Paquete.Paquete;
 import pe.oly.yoga_backend_api.User.Usuario;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Builder
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Suscripcion")
 public class Suscription {
 
@@ -18,10 +22,11 @@ public class Suscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
-    private LocalDateTime fechaHora;
+    private LocalDate fechaInicio;
 
-    @OneToOne
+    private LocalDate fechaFin;
+
+    @ManyToOne
     @JoinColumn(name = "id_paquete", referencedColumnName = "id")
     private Paquete paquete;
 
@@ -29,7 +34,18 @@ public class Suscription {
     @JoinColumn(name = "id_alumno", referencedColumnName = "id")
     private Usuario alumno;
 
-    @Column(nullable = false)
-    private String estado;
-}
+    @Enumerated(EnumType.STRING)
+    EstadoSuscripcion estado;
 
+    @PrePersist
+    void prePersist() {
+        fechaInicio = LocalDate.now();
+        fechaFin = fechaInicio.plusDays(paquete.getCantidadDias());
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        fechaInicio = LocalDate.now();
+        fechaFin = fechaInicio.plusDays(paquete.getCantidadDias());
+    }
+}

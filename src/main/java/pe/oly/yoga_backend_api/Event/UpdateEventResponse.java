@@ -19,4 +19,5 @@ public class UpdateEventResponse {
     private LocalTime horaInicio;
     private LocalTime horaFin;
     private int capacidad;
+    private int cuposDisponibles;
 }

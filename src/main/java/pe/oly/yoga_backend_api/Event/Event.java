@@ -42,8 +42,16 @@ public class Event {
 
     private int capacidad;
 
+    @Column(name = "cupos_disponibles")
+    private int cuposDisponibles;
+
     @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.LAZY)
     @JoinTable(name = "horario_alumno", joinColumns = @JoinColumn(name = "evento_id"), inverseJoinColumns = @JoinColumn(name = "alumno_id"))
     private List<Usuario> alumnos;
+
+    private boolean recurrente;
+
+    @Column(name = "fecha_fin_recurrencia")
+    private LocalDate fechaFinRecurrencia;
 
 }
