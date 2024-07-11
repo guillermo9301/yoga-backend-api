@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("api/paquete")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "yoga-project-webapp-production.up.railway.app" })
 public class PaqueteController {
 
   private final PaqueteService paqueteService;

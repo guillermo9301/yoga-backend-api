@@ -27,7 +27,7 @@ import pe.oly.yoga_backend_api.Event.UpdateEventResponse;
 @RestController
 @RequestMapping("api/event")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "yoga-project-webapp-production.up.railway.app" })
 public class EventController {
     private final EventService eventService;
 

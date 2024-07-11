@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("api/pago")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "yoga-project-webapp-production.up.railway.app" })
 public class PaymentController {
 
     private final PaymentService paymentService;
