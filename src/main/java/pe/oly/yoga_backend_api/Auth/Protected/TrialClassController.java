@@ -22,7 +22,7 @@ import pe.oly.yoga_backend_api.TrialClass.UpdateTrialClassResponse;
 @RestController
 @RequestMapping("api/trial_class")
 @RequiredArgsConstructor
-@CrossOrigin(origins = { "http://localhost:4200", "yoga-project-webapp-production.up.railway.app" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://oly-webapp.netlify.app/" })
 public class TrialClassController {
     private final TrialClassService trialClassService;
 

@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = { "http://localhost:4200", "yoga-project-webapp-production.up.railway.app" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://oly-webapp.netlify.app/" })
 public class AuthController {
 
     private final AuthService authService;

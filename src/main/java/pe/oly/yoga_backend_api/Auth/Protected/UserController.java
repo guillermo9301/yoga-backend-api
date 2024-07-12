@@ -21,7 +21,7 @@ import pe.oly.yoga_backend_api.User.Usuario;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
-@CrossOrigin(origins = { "http://localhost:4200", "yoga-project-webapp-production.up.railway.app" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://oly-webapp.netlify.app/" })
 public class UserController {
     private final UserService userService;
 
