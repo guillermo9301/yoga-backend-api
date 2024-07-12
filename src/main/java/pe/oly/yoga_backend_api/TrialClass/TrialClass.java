@@ -1,9 +1,5 @@
 package pe.oly.yoga_backend_api.TrialClass;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pe.oly.yoga_backend_api.Event.Event;
 import pe.oly.yoga_backend_api.User.Usuario;
 
 @Entity
@@ -29,18 +26,11 @@ public class TrialClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private LocalDate fecha;
-    private LocalTime hora_inicio;
-    private LocalTime hora_fin;
-    private String correo;
-    private String nombre_alumno;
-    private String apellido_paterno_alumno;
-    private String apellido_materno_alumno;
-
     @OneToOne(targetEntity = Usuario.class)
     @JoinColumn(name = "id_alumno")
-    private Usuario alumno;
+    private Usuario alumnoId;
 
-
-
+    @OneToOne(targetEntity = Event.class)
+    @JoinColumn(name = "evento_id")
+    private Event eventoId;
 }

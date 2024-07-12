@@ -1,4 +1,4 @@
-package pe.oly.yoga_backend_api.Schedule;
+package pe.oly.yoga_backend_api.Event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,9 +12,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScheduleUpdateResponse {
-    private int id;
-    private LocalDate fecha;
+public class CreateEventResponse {
+    private String mensaje;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFinRecurrencia;
     private LocalTime horaInicio;
     private LocalTime horaFin;
 }

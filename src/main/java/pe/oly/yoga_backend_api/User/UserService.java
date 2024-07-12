@@ -3,7 +3,6 @@ package pe.oly.yoga_backend_api.User;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +57,9 @@ public class UserService {
                     .nro_documento(user.nro_documento)
                     .celular(user.celular)
                     .fecha_registro(user.fecha_registro)
+                    .fechaActualizacion((user.fechaActualizacion))
+                    .suscripcionId(user.getSuscripcionId())
+                    .inscripciones(user.getCantidadInscipciones())
                     .rol(user.rol)
                     .build();
             return userDTO;

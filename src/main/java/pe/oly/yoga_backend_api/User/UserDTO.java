@@ -1,6 +1,7 @@
 package pe.oly.yoga_backend_api.User;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +18,13 @@ public class UserDTO {
     String apellido_paterno;
     String apellido_materno;
     String correo;
-    Date fec_nacimiento;
+    LocalDate fec_nacimiento;
     int id_tipo_documento;
     String nro_documento;
     String celular;
-    Date fecha_registro;
+    LocalDateTime fecha_registro;
+    LocalDateTime fechaActualizacion;
+    Long suscripcionId;
+    int inscripciones;
     Rol rol;
 }

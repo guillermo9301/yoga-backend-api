@@ -1,4 +1,4 @@
-package pe.oly.yoga_backend_api.TrialClass;
+package pe.oly.yoga_backend_api.Event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -8,17 +8,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TrialClassDTO {
+public class UpdateEventResponse {
+    private String mensaje;
+    private Long eventoiId;
     private LocalDate fecha;
     private LocalTime horaInicio;
     private LocalTime horaFin;
-    private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private String correo;
-    private String celular;
+    private int capacidad;
+    private int cuposDisponibles;
 }
