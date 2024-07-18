@@ -17,8 +17,8 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/nuevoPago")
-    public Payment create(@RequestBody Payment payment) {
-        return paymentService.create(payment);
+    public Payment create(@RequestBody PaymentRequest request) {
+        return paymentService.create(request);
     }
 
 }

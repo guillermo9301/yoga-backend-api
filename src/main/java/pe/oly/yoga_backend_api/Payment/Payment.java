@@ -1,5 +1,7 @@
 package pe.oly.yoga_backend_api.Payment;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,13 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pe.oly.yoga_backend_api.Paquete.Paquete;
+import pe.oly.yoga_backend_api.User.Usuario;
 
 @Entity
 @Builder
@@ -44,12 +45,8 @@ public class Payment {
 
     @Column(nullable = false)
     private String titular;
-    /*
-     * @ManyToOne
-     * 
-     * @JoinColumn(name = "paquete", referencedColumnName = "id")
-     * private Paquete paquete;
-     */
 
-    private Long paqueteId;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    private Usuario usuario;
 }

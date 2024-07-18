@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import pe.oly.yoga_backend_api.Paquete.Paquete;
-import pe.oly.yoga_backend_api.User.Usuario;
 
 public interface SuscriptionRepository extends JpaRepository<Suscription, Long> {
 
@@ -19,6 +18,6 @@ public interface SuscriptionRepository extends JpaRepository<Suscription, Long> 
             @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin,
             @Param("estado") EstadoSuscripcion estado);
 
-    Optional<Suscription> findByAlumno(Usuario alumnoId);
+    Optional<Suscription> findByAlumnoId(Integer alumnoId);
 
 }

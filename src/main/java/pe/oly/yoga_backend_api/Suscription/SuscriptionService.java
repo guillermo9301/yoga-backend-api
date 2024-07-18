@@ -55,7 +55,7 @@ public class SuscriptionService {
         Usuario alumno = userRepository.findById(alumnoId).orElseThrow(
                 () -> new IllegalArgumentException("El alumno no existe!"));
 
-        Suscription suscripcion = suscriptionRepository.findByAlumno(alumno).orElseThrow(
+        Suscription suscripcion = suscriptionRepository.findByAlumnoId(alumno.getId()).orElseThrow(
                 () -> new IllegalArgumentException("El alumno no cuenta con una suscripcion"));
 
         SuscriptionDTO response = new SuscriptionDTO(
