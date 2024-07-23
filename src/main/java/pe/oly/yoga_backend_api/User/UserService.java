@@ -1,9 +1,12 @@
 package pe.oly.yoga_backend_api.User;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -13,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserResponse updateUser(Integer id, UserRequest userRequest) throws Exception {
@@ -71,4 +75,25 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Usuario addUser(Usuario request) {
+        Usuario usuario = Usuario.builder()
+                                .correo(request.getCorreo())
+                                .password(passwordEncoder.encode(request.getPassword()))
+                                .nombre(request.getNombre())
+                                .apellido_paterno(request.getApellido_paterno())
+                                .apellido_materno(request.getApellido_materno())
+                                .fec_nacimiento(request.getFec_nacimiento())
+                                .id_tipo_documento(request.getId_tipo_documento())
+                                .nro_documento(request.getNro_documento())
+                                .celular(request.getCelular())
+                                .fecha_registro(request.getFecha_registro())
+                                .rol(request.getRol())
+                                .build();
+                    userRepository.save(usuario);
+                    return usuario;
+    }
+
+    public List<Rol> getRoles() {
+        return Arrays.asList(Rol.values());
+    }
 }
