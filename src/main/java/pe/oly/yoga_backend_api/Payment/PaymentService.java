@@ -28,6 +28,51 @@ public class PaymentService {
     public Payment create(PaymentRequest request) {
         Usuario alumno = userRepository.findById(request.getAlumnoId()).orElseThrow(
                 () -> new IllegalArgumentException("Usuario no encontrado!"));
+
+        // se crea o se actualiza la suscripcion asociada al usuario autenticado
+        Optional<Suscription> optionalSuscription = suscriptionRepository.findByAlumnoId(alumno.getId());
+
+        if (optionalSuscription.isPresent()) {
+            Suscription suscripcion = optionalSuscription.get();
+            EstadoSuscripcion estado = suscripcion.getEstado();
+
+            if (estado == EstadoSuscripcion.ACTIVA) {
+
+                throw new IllegalStateException("El alumno todavia cuenta con una suscripción activa");
+
+            } else if (estado == EstadoSuscripcion.INACTIVA) {
+                Paquete paquete = paqueteRepository.findById(request.getPaqueteId()).orElseThrow(
+                        () -> new IllegalArgumentException("El paquete indicado no existe!"));
+
+                updateSuscriptionRequest renewedSuscription = updateSuscriptionRequest.builder()
+                        .paqueteId(paquete)
+                        .estado(EstadoSuscripcion.ACTIVA)
+                        .build();
+
+                suscriptionService.renewSuscription(suscripcion.getId(), renewedSuscription);
+                return processPayment(request, alumno);
+            }
+
+        } else {
+            Payment savedPayment = processPayment(request, alumno);
+
+            Paquete paquete = paqueteRepository.findById(request.getPaqueteId()).orElseThrow(
+                    () -> new IllegalArgumentException("El paquete indicado no existe!"));
+
+            Suscription newSuscription = Suscription.builder()
+                    .paquete(paquete)
+                    .alumno(alumno)
+                    .estado(EstadoSuscripcion.ACTIVA)
+                    .build();
+
+            suscriptionService.create(newSuscription);
+            return savedPayment;
+        }
+
+        throw new IllegalStateException("Excepción inesperada!");
+    }
+
+    private Payment processPayment(PaymentRequest request, Usuario alumno) {
         Payment payment = Payment.builder()
                 .usuario(alumno)
                 .correo(request.getCorreo())
@@ -38,37 +83,6 @@ public class PaymentService {
                 .titular(request.getTitular())
                 .build();
 
-        Payment savedPayment = paymentRepository.save(payment);
-
-        // se crea o se actualiza la suscripcion asociada al usuario autenticado
-        Optional<Suscription> optionalSuscription = suscriptionRepository.findByAlumnoId(alumno.getId());
-        if (optionalSuscription.isPresent()) {
-            Suscription suscripcion = optionalSuscription.get();
-            EstadoSuscripcion estado = suscripcion.getEstado();
-
-            if (estado != EstadoSuscripcion.ACTIVA) {
-                Paquete paquete = paqueteRepository.findById(request.getPaqueteId()).orElseThrow(
-                        () -> new IllegalArgumentException("El paquete indicado no existe!"));
-                updateSuscriptionRequest renewedSuscription = updateSuscriptionRequest.builder()
-                        .paqueteId(paquete)
-                        .estado(EstadoSuscripcion.ACTIVA)
-                        .build();
-                suscriptionService.renewSuscription(suscripcion.getId(), renewedSuscription);
-            } else {
-                System.out.println("El alumno todavia cuenta con una suscripcion activa");
-                System.out.println(suscripcion);
-            }
-        } else {
-            Paquete paquete = paqueteRepository.findById(request.getPaqueteId()).orElseThrow(
-                    () -> new IllegalArgumentException("El paquete indicado no existe!"));
-
-            Suscription newSuscription = Suscription.builder()
-                    .paquete(paquete)
-                    .alumno(alumno)
-                    .estado(EstadoSuscripcion.ACTIVA)
-                    .build();
-            suscriptionService.create(newSuscription);
-        }
-        return savedPayment;
+        return paymentRepository.save(payment);
     }
 }

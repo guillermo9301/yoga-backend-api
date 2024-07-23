@@ -47,8 +47,9 @@ public class EventService {
                     .mensaje("Se han creado " + eventosRecurrentes.size() + " eventos")
                     .fechaInicio(eventosRecurrentes.get(0).getFecha())
                     .fechaFinRecurrencia(eventosRecurrentes.get(eventosRecurrentes.size() - 1).getFecha())
-                    .horaFin(event.getHoraInicio())
+                    .horaInicio(event.getHoraInicio())
                     .horaFin(event.getHoraFin())
+                    .recurrente(event.isRecurrente())
                     .build();
 
             return response;
