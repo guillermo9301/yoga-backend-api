@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pe.oly.yoga_backend_api.CustomAnnotations.AgeValidationService;
 import pe.oly.yoga_backend_api.Jwt.JwtService;
 import pe.oly.yoga_backend_api.User.Rol;
 import pe.oly.yoga_backend_api.User.UserRepository;
@@ -20,6 +21,7 @@ public class AuthService {
         private final JwtService jwtService;
         private final PasswordEncoder passwordEncoder;
         private final AuthenticationManager authenticationManager;
+        private final AgeValidationService ageValidationService;
 
         public AuthResponse login(LoginRequest request) {
                 authenticationManager
@@ -41,6 +43,9 @@ public class AuthService {
         }
 
         public RegisterResponse register(RegisterRequest request) {
+
+                ageValidationService.validateMinAge(request.getFec_nacimiento(), 12);
+
                 Usuario usuario = Usuario.builder()
                                 .correo(request.getCorreo())
                                 .password(passwordEncoder.encode(request.getPassword()))
