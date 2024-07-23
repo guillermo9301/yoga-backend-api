@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pe.oly.yoga_backend_api.CustomValidations.EventValidationService;
 import pe.oly.yoga_backend_api.Suscription.Suscription;
 import pe.oly.yoga_backend_api.Suscription.SuscriptionRepository;
 import pe.oly.yoga_backend_api.User.UserRepository;
@@ -19,8 +20,13 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final SuscriptionRepository suscriptionRepository;
+    private final EventValidationService eventValidationService;
 
     public CreateEventResponse createEvent(Event event) {
+
+        eventValidationService.validateEventDates(event.getFecha());
+        eventValidationService.validateEventTimes(event.getFecha(), event.getHoraInicio(), event.getHoraFin());
+
         if (event.isRecurrente()) {
             LocalDate fechaActual = event.getFecha();
             List<Event> eventosRecurrentes = new ArrayList<>();
@@ -69,6 +75,9 @@ public class EventService {
     }
 
     public UpdateEventResponse updateEvent(Long id, Event event) {
+        eventValidationService.validateEventDates(event.getFecha());
+        eventValidationService.validateEventTimes(event.getFecha(), event.getHoraInicio(), event.getHoraFin());
+
         try {
             Optional<Event> existingEventOpt = eventRepository.findById(id);
             if (!existingEventOpt.isPresent()) {

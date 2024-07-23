@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pe.oly.yoga_backend_api.CustomAnnotations.AgeValidationService;
+import pe.oly.yoga_backend_api.CustomValidations.AgeValidationService;
 import pe.oly.yoga_backend_api.Jwt.JwtService;
 import pe.oly.yoga_backend_api.User.Rol;
 import pe.oly.yoga_backend_api.User.UserRepository;

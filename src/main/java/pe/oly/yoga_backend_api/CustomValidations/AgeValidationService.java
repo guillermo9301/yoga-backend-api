@@ -1,4 +1,4 @@
-package pe.oly.yoga_backend_api.CustomAnnotations;
+package pe.oly.yoga_backend_api.CustomValidations;
 
 import java.time.LocalDate;
 import java.time.Period;
