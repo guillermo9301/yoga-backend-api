@@ -18,4 +18,5 @@ public class CreateEventResponse {
     private LocalDate fechaFinRecurrencia;
     private LocalTime horaInicio;
     private LocalTime horaFin;
+    private boolean recurrente;
 }

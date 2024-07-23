@@ -8,11 +8,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pe.oly.yoga_backend_api.Suscription.EstadoSuscripcion;
 import pe.oly.yoga_backend_api.Suscription.Suscription;
-import pe.oly.yoga_backend_api.Suscription.SuscriptionDTO;
 import pe.oly.yoga_backend_api.Suscription.SuscriptionRepository;
-import pe.oly.yoga_backend_api.Suscription.SuscriptionService;
 import pe.oly.yoga_backend_api.User.UserRepository;
 import pe.oly.yoga_backend_api.User.Usuario;
 
@@ -22,7 +19,6 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final SuscriptionRepository suscriptionRepository;
-    private final SuscriptionService suscriptionService;
 
     public CreateEventResponse createEvent(Event event) {
         if (event.isRecurrente()) {
@@ -46,12 +42,14 @@ public class EventService {
             }
             eventRepository.saveAll(eventosRecurrentes);
 
-            CreateEventResponse response = new CreateEventResponse().builder()
+            new CreateEventResponse();
+            CreateEventResponse response = CreateEventResponse.builder()
                     .mensaje("Se han creado " + eventosRecurrentes.size() + " eventos")
                     .fechaInicio(eventosRecurrentes.get(0).getFecha())
                     .fechaFinRecurrencia(eventosRecurrentes.get(eventosRecurrentes.size() - 1).getFecha())
-                    .horaFin(event.getHoraInicio())
+                    .horaInicio(event.getHoraInicio())
                     .horaFin(event.getHoraFin())
+                    .recurrente(event.isRecurrente())
                     .build();
 
             return response;
@@ -122,7 +120,7 @@ public class EventService {
                 () -> new IllegalArgumentException("Evento no encontrado!"));
         Usuario alumno = userRepository.findById(request.getAlumnoId()).orElseThrow(
                 () -> new IllegalArgumentException("Alumno no encontrado!"));
-        Suscription suscripcion = suscriptionRepository.findByAlumno(alumno).orElseThrow(
+        Suscription suscripcion = suscriptionRepository.findByAlumnoId(alumno.getId()).orElseThrow(
                 () -> new IllegalArgumentException("El alumno no tiene una suscripcion!"));
         String suscriptionState = suscripcion.getEstado().toString();
 

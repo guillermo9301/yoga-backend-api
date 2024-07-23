@@ -8,17 +8,18 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import jakarta.transaction.Transactional;
 import pe.oly.yoga_backend_api.Paquete.Paquete;
-import pe.oly.yoga_backend_api.User.Usuario;
 
 public interface SuscriptionRepository extends JpaRepository<Suscription, Long> {
 
     @Modifying
+    @Transactional
     @Query("UPDATE Suscription s SET s.paquete = :paquete, s.fechaInicio = :fechaInicio, s.fechaFin = :fechaFin, s.estado = :estado WHERE s.id = :id")
     int renewSuscription(@Param("id") Long id, @Param("paquete") Paquete paquete,
             @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin,
             @Param("estado") EstadoSuscripcion estado);
 
-    Optional<Suscription> findByAlumno(Usuario alumnoId);
+    Optional<Suscription> findByAlumnoId(Integer alumnoId);
 
 }
