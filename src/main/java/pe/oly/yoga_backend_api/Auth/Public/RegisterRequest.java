@@ -1,6 +1,5 @@
 package pe.oly.yoga_backend_api.Auth.Public;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
