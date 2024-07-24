@@ -2,16 +2,19 @@ package pe.oly.yoga_backend_api.Auth.Protected;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pe.oly.yoga_backend_api.User.Rol;
 import pe.oly.yoga_backend_api.User.UserDTO;
 import pe.oly.yoga_backend_api.User.UserRequest;
 import pe.oly.yoga_backend_api.User.UserResponse;
@@ -45,4 +48,13 @@ public class UserController {
         return userService.getAll();
     }
 
+    @PostMapping("/addUser")
+    public Usuario addUser(@RequestBody Usuario usuario){
+        return userService.addUser(usuario);
+    }
+
+    @GetMapping("/allRoles")
+    public List<Rol> listarRoles(){
+        return userService.getRoles();
+    }
 }

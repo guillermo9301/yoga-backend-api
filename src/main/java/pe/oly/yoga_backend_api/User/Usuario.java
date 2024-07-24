@@ -69,6 +69,9 @@ public class Usuario implements UserDetails {
     @Column(name = "suscripcion_id")
     private Long suscripcionId;
 
+    @Column(name = "clases_asistidas")
+    private int clasesAsistidas;
+
     @Transient
     private SuscriptionDTO suscripcion;
 
@@ -80,6 +83,10 @@ public class Usuario implements UserDetails {
 
     public void restarInscripciones() {
         this.cantidadInscipciones--;
+    }
+
+    public void incrementarClasesAsistidas() {
+        this.clasesAsistidas++;
     }
 
     @PrePersist

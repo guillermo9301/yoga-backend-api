@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import pe.oly.yoga_backend_api.Event.AddAlumnoRequest;
 import pe.oly.yoga_backend_api.Event.CreateEventRequest;
-import pe.oly.yoga_backend_api.Event.CreateEventResponse;
 import pe.oly.yoga_backend_api.Event.Event;
 import pe.oly.yoga_backend_api.Event.EventService;
 import pe.oly.yoga_backend_api.Event.RemoveAlumnoRequest;
@@ -32,23 +31,32 @@ public class EventController {
     private final EventService eventService;
 
     @PostMapping("/create")
-    public ResponseEntity<CreateEventResponse> createEvent(@RequestBody CreateEventRequest request) {
-        Event event = Event.builder()
-                .fecha(request.getFecha())
-                .horaInicio(request.getHoraInicio())
-                .horaFin(request.getHoraFin())
-                .capacidad(request.getCapacidad())
-                .cuposDisponibles(request.getCapacidad())
-                .recurrente(request.isRecurrente())
-                .fechaFinRecurrencia(request.getFechaFinRecurrencia())
-                .build();
-        return ResponseEntity.ok(eventService.createEvent(event));
+    public ResponseEntity<?> createEvent(@RequestBody CreateEventRequest request) {
+        try {
+            Event event = Event.builder()
+                    .fecha(request.getFecha())
+                    .horaInicio(request.getHoraInicio())
+                    .horaFin(request.getHoraFin())
+                    .capacidad(request.getCapacidad())
+                    .cuposDisponibles(request.getCapacidad())
+                    .recurrente(request.isRecurrente())
+                    .fechaFinRecurrencia(request.getFechaFinRecurrencia())
+                    .build();
+            return ResponseEntity.ok(eventService.createEvent(event));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<UpdateEventResponse> updateEvent(@PathVariable Long id, @RequestBody Event event) {
-        UpdateEventResponse response = eventService.updateEvent(id, event);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody Event event) {
+        try {
+            UpdateEventResponse response = eventService.updateEvent(id, event);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping
@@ -84,5 +92,12 @@ public class EventController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @PostMapping("/{id}/asistencia")
+    public ResponseEntity<Void> registrarAsistencia(@PathVariable Long id,
+            @RequestBody List<Integer> alumnosAsistentesIds) {
+        eventService.registrarAsistencia(id, alumnosAsistentesIds);
+        return ResponseEntity.ok().build();
     }
 }

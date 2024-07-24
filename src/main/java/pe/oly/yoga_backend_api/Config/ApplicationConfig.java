@@ -59,7 +59,7 @@ public class ApplicationConfig {
                 defaultAdmin.setNombre("admin");
                 defaultAdmin.setApellido_paterno("adminAp");
                 defaultAdmin.setApellido_materno("adminAm");
-                defaultAdmin.setFec_nacimiento(LocalDate.of(2000, 6, 20));
+                defaultAdmin.setFec_nacimiento(LocalDate.of(2024, 6, 20));
                 defaultAdmin.setId_tipo_documento(1);
                 defaultAdmin.setNro_documento("74584231");
                 defaultAdmin.setPassword(passwordEncoder().encode("admin"));

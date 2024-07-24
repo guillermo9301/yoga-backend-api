@@ -7,7 +7,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import pe.oly.yoga_backend_api.CustomValidations.EventValidationService;
 import pe.oly.yoga_backend_api.Suscription.EstadoSuscripcion;
 import pe.oly.yoga_backend_api.Suscription.Suscription;
 import pe.oly.yoga_backend_api.Suscription.SuscriptionDTO;
@@ -22,9 +24,14 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final SuscriptionRepository suscriptionRepository;
+    private final EventValidationService eventValidationService;
     private final SuscriptionService suscriptionService;
 
     public CreateEventResponse createEvent(Event event) {
+
+        eventValidationService.validateEventDates(event.getFecha());
+        eventValidationService.validateEventTimes(event.getFecha(), event.getHoraInicio(), event.getHoraFin());
+
         if (event.isRecurrente()) {
             LocalDate fechaActual = event.getFecha();
             List<Event> eventosRecurrentes = new ArrayList<>();
@@ -46,12 +53,14 @@ public class EventService {
             }
             eventRepository.saveAll(eventosRecurrentes);
 
-            CreateEventResponse response = new CreateEventResponse().builder()
+            new CreateEventResponse();
+            CreateEventResponse response = CreateEventResponse.builder()
                     .mensaje("Se han creado " + eventosRecurrentes.size() + " eventos")
                     .fechaInicio(eventosRecurrentes.get(0).getFecha())
                     .fechaFinRecurrencia(eventosRecurrentes.get(eventosRecurrentes.size() - 1).getFecha())
-                    .horaFin(event.getHoraInicio())
+                    .horaInicio(event.getHoraInicio())
                     .horaFin(event.getHoraFin())
+                    .recurrente(event.isRecurrente())
                     .build();
 
             return response;
@@ -71,6 +80,9 @@ public class EventService {
     }
 
     public UpdateEventResponse updateEvent(Long id, Event event) {
+        eventValidationService.validateEventDates(event.getFecha());
+        eventValidationService.validateEventTimes(event.getFecha(), event.getHoraInicio(), event.getHoraFin());
+
         try {
             Optional<Event> existingEventOpt = eventRepository.findById(id);
             if (!existingEventOpt.isPresent()) {
@@ -122,7 +134,7 @@ public class EventService {
                 () -> new IllegalArgumentException("Evento no encontrado!"));
         Usuario alumno = userRepository.findById(request.getAlumnoId()).orElseThrow(
                 () -> new IllegalArgumentException("Alumno no encontrado!"));
-        Suscription suscripcion = suscriptionRepository.findByAlumno(alumno).orElseThrow(
+        Suscription suscripcion = suscriptionRepository.findByAlumnoId(alumno.getId()).orElseThrow(
                 () -> new IllegalArgumentException("El alumno no tiene una suscripcion!"));
         String suscriptionState = suscripcion.getEstado().toString();
 
@@ -178,6 +190,24 @@ public class EventService {
             eventRepository.deleteById(eventId);
         } else {
             throw new RuntimeException("Evento no encontrado");
+        }
+    }
+
+    @Transactional
+    public void registrarAsistencia(Long eventId, List<Integer> alumnosAsistentesIds) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+        for (Usuario alumno : event.getAlumnos()) {
+            if (alumnosAsistentesIds.contains(alumno.getId())) {
+                alumno.incrementarClasesAsistidas();
+                userRepository.save(alumno);
+            }
+            // Verificar y actualizar el estado de la suscripción
+            SuscriptionDTO alumnoSuscription = suscriptionService.getAlumnoSuscription(alumno.getId());
+            if (alumno.getClasesAsistidas() >= alumnoSuscription.getPaquete().getCantidadClases()) {
+                suscriptionService.actualizarEstado(alumnoSuscription.getId(), EstadoSuscripcion.INACTIVA);
+                alumno.setClasesAsistidas(0);
+            }
+
         }
     }
 }
