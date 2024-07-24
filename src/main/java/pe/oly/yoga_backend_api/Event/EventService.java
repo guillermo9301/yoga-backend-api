@@ -7,10 +7,14 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import pe.oly.yoga_backend_api.CustomValidations.EventValidationService;
+import pe.oly.yoga_backend_api.Suscription.EstadoSuscripcion;
 import pe.oly.yoga_backend_api.Suscription.Suscription;
+import pe.oly.yoga_backend_api.Suscription.SuscriptionDTO;
 import pe.oly.yoga_backend_api.Suscription.SuscriptionRepository;
+import pe.oly.yoga_backend_api.Suscription.SuscriptionService;
 import pe.oly.yoga_backend_api.User.UserRepository;
 import pe.oly.yoga_backend_api.User.Usuario;
 
@@ -21,6 +25,7 @@ public class EventService {
     private final UserRepository userRepository;
     private final SuscriptionRepository suscriptionRepository;
     private final EventValidationService eventValidationService;
+    private final SuscriptionService suscriptionService;
 
     public CreateEventResponse createEvent(Event event) {
 
@@ -185,6 +190,24 @@ public class EventService {
             eventRepository.deleteById(eventId);
         } else {
             throw new RuntimeException("Evento no encontrado");
+        }
+    }
+
+    @Transactional
+    public void registrarAsistencia(Long eventId, List<Integer> alumnosAsistentesIds) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+        for (Usuario alumno : event.getAlumnos()) {
+            if (alumnosAsistentesIds.contains(alumno.getId())) {
+                alumno.incrementarClasesAsistidas();
+                userRepository.save(alumno);
+            }
+            // Verificar y actualizar el estado de la suscripción
+            SuscriptionDTO alumnoSuscription = suscriptionService.getAlumnoSuscription(alumno.getId());
+            if (alumno.getClasesAsistidas() >= alumnoSuscription.getPaquete().getCantidadClases()) {
+                suscriptionService.actualizarEstado(alumnoSuscription.getId(), EstadoSuscripcion.INACTIVA);
+                alumno.setClasesAsistidas(0);
+            }
+
         }
     }
 }

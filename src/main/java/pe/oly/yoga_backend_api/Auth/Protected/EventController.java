@@ -93,4 +93,11 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @PostMapping("/{id}/asistencia")
+    public ResponseEntity<Void> registrarAsistencia(@PathVariable Long id,
+            @RequestBody List<Integer> alumnosAsistentesIds) {
+        eventService.registrarAsistencia(id, alumnosAsistentesIds);
+        return ResponseEntity.ok().build();
+    }
 }

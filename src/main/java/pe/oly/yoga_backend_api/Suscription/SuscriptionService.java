@@ -70,4 +70,12 @@ public class SuscriptionService {
                 return response;
         }
 
+        @Transactional
+        public void actualizarEstado(Long suscripcionId, EstadoSuscripcion nuevoEstado) {
+                Suscription suscripcion = suscriptionRepository.findById(suscripcionId)
+                                .orElseThrow(() -> new RuntimeException("Suscripción no encontrada"));
+                suscripcion.setEstado(nuevoEstado);
+                suscriptionRepository.save(suscripcion);
+        }
+
 }
