@@ -1,6 +1,5 @@
 package pe.oly.yoga_backend_api.User;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -15,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pe.oly.yoga_backend_api.Suscription.Suscription;
 import pe.oly.yoga_backend_api.Suscription.SuscriptionDTO;
 
 @Data
@@ -70,7 +68,7 @@ public class Usuario implements UserDetails {
     private Long suscripcionId;
 
     @Column(name = "clases_asistidas")
-    private int clasesAsistidas;
+    private Integer clasesAsistidas;
 
     @Transient
     private SuscriptionDTO suscripcion;

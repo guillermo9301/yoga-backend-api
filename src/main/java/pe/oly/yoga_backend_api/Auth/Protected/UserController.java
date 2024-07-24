@@ -2,7 +2,6 @@ package pe.oly.yoga_backend_api.Auth.Protected;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,12 +48,12 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public Usuario addUser(@RequestBody Usuario usuario){
+    public Usuario addUser(@RequestBody Usuario usuario) {
         return userService.addUser(usuario);
     }
 
     @GetMapping("/allRoles")
-    public List<Rol> listarRoles(){
+    public List<Rol> listarRoles() {
         return userService.getRoles();
     }
 }
