@@ -68,7 +68,7 @@ public class Usuario implements UserDetails {
     private Long suscripcionId;
 
     @Column(name = "clases_asistidas")
-    private Integer clasesAsistidas;
+    private int clasesAsistidas;
 
     @Transient
     private SuscriptionDTO suscripcion;
