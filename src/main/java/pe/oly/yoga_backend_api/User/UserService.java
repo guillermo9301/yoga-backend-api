@@ -64,6 +64,7 @@ public class UserService {
                     .fechaActualizacion((user.fechaActualizacion))
                     .suscripcionId(user.getSuscripcionId())
                     .inscripciones(user.getCantidadInscipciones())
+                    .clasesAsistidas(user.getClasesAsistidas())
                     .rol(user.rol)
                     .build();
             return userDTO;
@@ -77,20 +78,20 @@ public class UserService {
 
     public Usuario addUser(Usuario request) {
         Usuario usuario = Usuario.builder()
-                                .correo(request.getCorreo())
-                                .password(passwordEncoder.encode(request.getPassword()))
-                                .nombre(request.getNombre())
-                                .apellido_paterno(request.getApellido_paterno())
-                                .apellido_materno(request.getApellido_materno())
-                                .fec_nacimiento(request.getFec_nacimiento())
-                                .id_tipo_documento(request.getId_tipo_documento())
-                                .nro_documento(request.getNro_documento())
-                                .celular(request.getCelular())
-                                .fecha_registro(request.getFecha_registro())
-                                .rol(request.getRol())
-                                .build();
-                    userRepository.save(usuario);
-                    return usuario;
+                .correo(request.getCorreo())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .nombre(request.getNombre())
+                .apellido_paterno(request.getApellido_paterno())
+                .apellido_materno(request.getApellido_materno())
+                .fec_nacimiento(request.getFec_nacimiento())
+                .id_tipo_documento(request.getId_tipo_documento())
+                .nro_documento(request.getNro_documento())
+                .celular(request.getCelular())
+                .fecha_registro(request.getFecha_registro())
+                .rol(request.getRol())
+                .build();
+        userRepository.save(usuario);
+        return usuario;
     }
 
     public List<Rol> getRoles() {
