@@ -24,6 +24,7 @@ public class UserDTO {
     String celular;
     LocalDateTime fecha_registro;
     LocalDateTime fechaActualizacion;
+    Integer clasesAsistidas;
     Long suscripcionId;
     int inscripciones;
     Rol rol;
